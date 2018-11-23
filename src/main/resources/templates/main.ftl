@@ -4,9 +4,15 @@
 
 <@c.page>
 <div>
-    <@l.logout /></br>
-    <span><a href="/user">Список пользователей</a></span>
+    <@l.logout />
 </div>
+
+<div>
+    <#if user.id == 8>
+        </br><span><a href="/user">Список пользователей</a></span>
+    </#if>
+</div>
+</br>
 <div>
     <form method="post" enctype="multipart/form-data"> <#-- кодирование данных при работе с файлами -->
         <input type="text" name="lastName" placeholder="Введите фамилию" /> <#-- поле для ввода сообщения со значением по умолчанию -->
