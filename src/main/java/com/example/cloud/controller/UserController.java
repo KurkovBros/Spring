@@ -14,30 +14,28 @@ import java.util.Map;
 import java.util.Set;
 
 @Controller // Говорим спрингу, что этот класс является бином и его нужно использовать при создании контроллера
-@RequestMapping("/user") // контроллер должен обрабатывать запрос с указанным адресом
 @PreAuthorize("hasAuthority('ADMIN')") // класс активен только если пользователь зашел как админ
+@RequestMapping("/user") // контроллер должен обрабатывать запрос с указанным адресом
 public class UserController {
 
     @Autowired // автоматическое связывание класса и поля средствами Spring
     private UserRepo userRepo;
 
-    // Метод возвращает страницу, описанную в файле userList.ftl
-    @GetMapping
+    @GetMapping // Метод возвращает страницу, описанную в файле userList.ftl
     public String userList(Model model) {
         model.addAttribute("users", userRepo.findAll()); // добавление в модель всех пользователей из БД
         return "userList";
     }
 
-    // Метод изменяет настройки пользователя
-    @GetMapping("{user}")
+    @GetMapping("{user}") // Метод изменяет настройки пользователя
     public String userEditForm(@PathVariable User user, Model model) {
         model.addAttribute("user", user); // добавление в модель пользователя
-        model.addAttribute("roles", Role.values()); // и его роли
+        model.addAttribute("roles", Role.values()); // и всех его ролей
         return "userEdit";
     }
 
-    // Метод сохраняет нового пользователя
-    @PostMapping
+
+    @PostMapping // Метод сохраняет нового пользователя
     public String userSave(
             @RequestParam String username, // запрос имени пользователя
             @RequestParam Map <String, String> form,

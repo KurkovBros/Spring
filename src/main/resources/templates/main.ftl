@@ -6,12 +6,7 @@
 <div>
     <@l.logout />
 </div>
-
-<div>
-    <#if user.id == 8>
-        </br><span><a href="/user">Список пользователей</a></span>
-    </#if>
-</div>
+</br><span><a href="/user">Список пользователей</a></span>
 </br>
 <div>
     <form method="post" enctype="multipart/form-data"> <#-- кодирование данных при работе с файлами -->
@@ -29,19 +24,26 @@
     <input type="text" name="filter" value="${filter?ifExists}"> <#-- если нет фильтра -->
     <button type="submit">Найти</button> <#-- создание кнопки с заданной надписью -->
 </form>
-<#list contacts as contact> <#-- представляем список контактов -->
-<div>
-    <b>${contact.id}</b> <#-- выделение текста жирным -->
-    <span>${contact.text}</span> <#-- строка с возможностью настройки стиля -->
-    <i>${contact.tag}</i> <#-- выделение текста курсивом -->
-    <strong>${contact.authorName}</strong> <#-- выделение текста жирным -->
-    <div>
-        <#if contact.filename??> <#-- если к контакту приложен файл; ?? - приведение к булеву типу -->
-            <img src="/img/${contact.filename}"> <#-- отображение картинки, которая загружена вместе с контактом -->
-        </#if>
-    </div>
-</div>
-<#else>
-</br>У этого пользователя ещё нет ни одного контакта
-</#list>
+<table>
+    <thead>
+    <tr>
+        <th>Фамилия</th>
+        <th>Имя</th>
+        <th>email</th>
+        <th>телефонный номер</th>
+        <th></th>
+    <tbody>
+    <#list contacts as contact> <#-- представляем список контактов -->
+    <tr>
+        <td>${contact.lastName}</td>
+        <td>${contact.firstName}</td>
+        <td>${contact.email}</td>
+        <td>${contact.phone}</td>
+        <td><a href="/contact/${contact.id}">Изменить контакт</a></td>
+    </tr>
+    </#list>
+    </tbody>
+</table>
+
+
 </@c.page>

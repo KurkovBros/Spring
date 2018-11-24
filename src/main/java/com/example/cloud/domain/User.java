@@ -4,7 +4,9 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.Collection;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity // данный класс является сущностью и Hibernate должен её создать
@@ -13,7 +15,9 @@ public class User implements UserDetails {
     @Id // указываем первичный ключ
     @GeneratedValue(strategy = GenerationType.AUTO) // первичный ключ будет генерироваться автоматически
     private Long id;
+    @NotBlank(message = "Имя пользователя не может быть пустым") // сообщение при попытке регистрации пользователя без имени
     private String username;
+    @NotBlank(message = "Пароль пользователя не может быть пустым") // сообщение при попытке регистрации пользователя без пароля
     private String password;
     private boolean active;
 
@@ -25,7 +29,33 @@ public class User implements UserDetails {
     @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
     // данное поле - enum и хранить его мы будем в виде строки
     @Enumerated(EnumType.STRING)
-    private Set<Role> roles; // создание множества ролей (админ, юзер)
+    private Set<Role> roles; // создание множества ролей пользователя
+
+    // Один автор соответствует множеству контактов
+    // mappedBy - обратная сторона связи сущности: поле не сохраняется в БД, но доступно по запросу
+    // cascade - связь пользователя с его контактами: если удалим пользователя, удалятся и все его контакты
+    // fetch = FetchType.LAZY - контакты пользователя будут загружаться только при обращении к ним, а не при загрузке пользователя
+    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Contact> contacts;
+
+    // метод сгенерирован автоматически по полю id
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(id, user.id);
+    }
+
+    // метод сгенерирован автоматически по полю id
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+
+    public boolean isAdmin() {
+        return roles.contains(Role.ADMIN);
+    }
 
     public Long getId() {
         return id;
@@ -90,5 +120,13 @@ public class User implements UserDetails {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    public Set<Contact> getContacts() {
+        return contacts;
+    }
+
+    public void setContacts(Set<Contact> messages) {
+        this.contacts = contacts;
     }
 }

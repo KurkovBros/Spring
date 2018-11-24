@@ -12,7 +12,7 @@ public class Contact {
     private String email;
     private String phone;
 
-    // Много контактов соответствует одному автору.
+    // Много контактов соответствует одному автору
     @ManyToOne(fetch = FetchType.EAGER) // получаем контакт - вместе с ним сразу получаем автора
     @JoinColumn(name = "user_id") // пристыковываем к таблице контактов колонку с user_id
     private User author;

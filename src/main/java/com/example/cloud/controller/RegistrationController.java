@@ -35,6 +35,6 @@ public class RegistrationController {
         user.setActive(true); // иначе активируем нового пользователя
         user.setRoles(Collections.singleton(Role.USER)); // устанавливаем его роль (сет с одним значением)
         userRepo.save(user); // заливаем нового пользователя в БД
-        return "redirect:/login"; // переходим на
+        return "redirect:/login"; // переходим на страницу авторизации
     }
 }
