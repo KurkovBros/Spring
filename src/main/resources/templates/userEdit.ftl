@@ -2,11 +2,13 @@
 <#import "parts/common.ftl" as c>
 
 <@c.page>
-<span><a href="/main">Back to main</a></span></br>
-User editor
-
+<span><a href="/main">На главную</a></span>
+<div>
+    </br><span>Редактирование пользователей</span>
+</div>
 <form action="/user" method="post">
-    <input type="text" name="username" value="${user.username}">
+    </br><input type="text" name="username" value="${user.username}">
+    </br>
     <#list roles as role>
     <div>
         <label><input type="checkbox" name="${role}" ${user.roles?seq_contains(role)?string("checked", "")}>${role}</label>
@@ -14,6 +16,6 @@ User editor
     </#list>
     <input type="hidden" value="${user.id}" name="userId">
     <input type="hidden" value="${_csrf.token}" name="_csrf">
-    <button type="submit">Save</button>
+    </br><button type="submit">Сохранить</button>
 </form>
 </@c.page>

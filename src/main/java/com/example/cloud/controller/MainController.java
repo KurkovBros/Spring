@@ -9,17 +9,13 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.io.File;
 import java.io.IOException;
 import java.util.Map;
-import java.util.Set;
 import java.util.UUID;
 
 @Controller // Говорим спрингу, что этот класс является бином и его нужно использовать при создании контроллера
@@ -33,14 +29,14 @@ public class MainController {
 
     // Метод возвращает страницу, описанную в файле greeting.ftl
     @GetMapping("/")
-    public String greeting(Map<String, Object> model) {
+    public String greeting() {
         return "greeting";
     }
 
     // Метод возвращает страницу, описанную в файле main.ftl
     @GetMapping("/main")
     public String main(@RequestParam(required = false, defaultValue = "") String filter, Model model) {
-        Iterable<Contact> contacts = contactRepo.findAll(); // Получение всех контактов и запись их contacts
+        Iterable<Contact> contacts;
         if (filter != null && !filter.isEmpty()) { // если фильтр есть и он не пустой,
             contacts = contactRepo.findByLastName(filter); // то найти контакты с заданным тегом
         } else {
@@ -70,27 +66,12 @@ public class MainController {
         return "main"; // отображение модели
     }
 
-    // Метод возвращает все конаткты пользователя
-    @GetMapping("/user-contacts/{user}")
-    public String userContacts(
-            @AuthenticationPrincipal User currentUser, // загрузка пользователя из текущей сессии
-            @PathVariable User user, // Spring подставляет переменную из мапинга в указанное поле
-            Model model,
-            @RequestParam(required = false) Contact contact // запрос контакта
-    ) {
-        Set<Contact> contacts = user.getContacts(); // создание множества контактов пользователя
-        model.addAttribute("contacts", contacts); // добавление в модель всех контактов, которые должны быть отображены
-        model.addAttribute("contact", contact); // добавление контакта в модель
-        model.addAttribute("isCurrentUser", currentUser.equals(user)); // отображение контактов только текущего пользователя
-        return "userContacts";
-    }
-
     // Метод изменяет контакт
-    @PostMapping("/user-contacts/{user}")
+    @RequestMapping("/contact") // контроллер должен обрабатывать запрос с указанным адресом
+    @GetMapping("{contact}")
     public String updateContact(
+            @PathVariable Contact contact,
             @AuthenticationPrincipal User currentUser, // загрузка пользователя из текущей сессии
-            @PathVariable Long user, // Spring подставляет переменную из мапинга (её поле id<long>) в указанное поле
-            @RequestParam("id") Contact contact, // запрос id контакта
             @RequestParam("lastName") String lastName, // запрос фамилии контакта
             @RequestParam("firstName") String firstName, // запрос имени контакта
             @RequestParam("email") String email, // запрос email контакта
@@ -113,7 +94,7 @@ public class MainController {
             saveFile(contact, file); // сохраняем контакт и картинку (если приложена)
             contactRepo.save(contact); // сохраняем контакт в БД
         }
-        return "redirect:/user-contacts/" + user; // переходим на страницу контактов пользователя (user - id пользователя)
+        return "redirect:/main";
     }
 
     private void saveFile(@Valid Contact contact, @RequestParam("file") MultipartFile file) throws IOException {

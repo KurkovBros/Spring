@@ -3,6 +3,7 @@
 <#import "parts/login.ftl" as l>
 
 <@c.page>
+
 <div>
     <@l.logout />
 </div>
@@ -22,10 +23,10 @@
 <div>
     Список контактов
 </div></br>
-<form method="get" action="/main">
-    <input type="text" name="filter" value="${filter?ifExists}"> <#-- если нет фильтра -->
-    <button type="submit">Найти</button> <#-- создание кнопки с заданной надписью -->
-</form>
+    <form method="get" action="/main">
+        <input type="text" name="filter" value="${filter?ifExists}"> <#-- если нет фильтра -->
+        <button type="submit">Найти</button> <#-- создание кнопки с заданной надписью -->
+    </form>
 <table>
     </br><thead>
     <tr>
