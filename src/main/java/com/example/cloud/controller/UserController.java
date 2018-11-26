@@ -34,7 +34,6 @@ public class UserController {
         return "userEdit";
     }
 
-
     @PostMapping // Метод сохраняет нового пользователя
     public String userSave(
             @RequestParam String username, // запрос имени пользователя
