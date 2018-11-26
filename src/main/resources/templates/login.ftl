@@ -2,9 +2,9 @@
 <#import "parts/login.ftl" as l>
 
 <@c.page>
-Please login or registry
+Пожалуйста войдите или зарегистрируйтесь
 <@l.login "/login" />
 <div>
-    <a href="/registration">Registration</a>
+    </br><a href="/registration">Регистрация</a>
 </div>
 </@c.page>

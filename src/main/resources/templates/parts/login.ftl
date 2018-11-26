@@ -1,9 +1,9 @@
 <#macro login path>
 <form action="${path}" method="post">
-    <div><label> User Name : <input type="text" name="username"/> </label></div> <#-- добавление поля для логина -->
-    <div><label> Password: <input type="password" name="password"/> </label></div> <#-- добавление поля для пароля -->
+    </br><div><label> Имя пользователя : <input type="text" name="username"/> </label></div> <#-- добавление поля для логина -->
+    </br><div><label> Пароль: <input type="password" name="password"/> </label></div> <#-- добавление поля для пароля -->
     <input type="hidden" name="_csrf" value="${_csrf.token}" /> <#-- передача токена при всех запросах (Spring Security) -->
-    <div><input type="submit" value="Sign In"/></div> <#-- создание кнопки "войти" -->
+    </br><div><input type="submit" value="Sign In"/></div> <#-- создание кнопки "войти" -->
 </form>
 </#macro>
 
