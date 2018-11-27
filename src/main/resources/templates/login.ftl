@@ -1,5 +1,5 @@
-<#import "parts/common.ftl" as c>
-<#import "parts/login.ftl" as l>
+<#import "parts/common.ftl" as c> <!-- Код этой страницы будет вставлен в указанный шаблон -->
+<#import "parts/login.ftl" as l> <!-- Код этой страницы будет вставлен в указанный шаблон -->
 
 <@c.page>
 Пожалуйста войдите или зарегистрируйтесь

@@ -74,6 +74,7 @@ public class ContactController {
         model.put("contacts", contacts); // запись полученных контактов в модель
         return "main"; // отображение модели
     }
+
     private void saveFile(@Valid Contact contact, @RequestParam("file") MultipartFile file) throws IOException {
         if (file != null && !file.getOriginalFilename().isEmpty()) { // если файл есть и его имя не пустое
             File uploadDir = new File(uploadPath); // создание папки с указанным адресом

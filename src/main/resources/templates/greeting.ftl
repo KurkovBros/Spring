@@ -1,4 +1,4 @@
-<#import "parts/common.ftl" as c>
+<#import "parts/common.ftl" as c> <!-- Код этой страницы будет вставлен в указанный шаблон -->
 
 <@c.page>
 <div>Добрый день!</div>

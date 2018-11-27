@@ -1,11 +1,10 @@
-<#-- загрузка кода из файла -->
-<#import "parts/common.ftl" as c>
-<#import "parts/login.ftl" as l>
+<#import "parts/common.ftl" as c> <!-- Код этой страницы будет вставлен в указанный шаблон -->
+<#import "parts/login.ftl" as l> <!-- Код этой страницы будет вставлен в указанный шаблон -->
 
 <@c.page>
 
 <div>
-    <@l.logout />
+    <@l.logout /> <#-- кнопка выхода -->
 </div>
 </br><span><a href="/user">Список пользователей</a></span>
 <div>
@@ -24,11 +23,11 @@
     Список контактов
 </div></br>
     <form method="get" action="/main">
-        <input type="text" name="filter" value="${filter?ifExists}"> <#-- если нет фильтра -->
+        <input type="text" name="filter" value="${filter?ifExists}"> <#-- поле для ввода фильтра с проверкой -->
         <button type="submit">Найти</button> <#-- создание кнопки с заданной надписью -->
     </form>
-<table>
-    </br><thead>
+<table> <#-- создание таблицы -->
+    </br><thead> <#-- заголовки таблицы -->
     <tr>
         <th>Фамилия</th>
         <th>Имя</th>
@@ -36,16 +35,16 @@
         <th>Телефонный номер</th>
         <th>Редактирование</th>
         <th>Фото</th>
-    <tbody>
+    <tbody> <#-- данные таблицы -->
     <#list contacts as contact> <#-- представляем список контактов -->
     <tr>
         <td>${contact.lastName}</td>
         <td>${contact.firstName}</td>
         <td>${contact.email}</td>
         <td>${contact.phone}</td>
-        <td><a href="/contact/${contact.id}">Изменить контакт</a></td>
-        <td><#if contact.filename??>
-            <img src="/img/${contact.filename}">
+        <td><a href="/contact/${contact.id}">Изменить контакт</a></td> <#-- ссылка на страницу редактирования -->
+        <td><#if contact.filename??> <#-- если есть фото -->
+            <img src="/img/${contact.filename}"> <#-- отображаем его -->
         </#if></td>
     </tr>
     </#list>
